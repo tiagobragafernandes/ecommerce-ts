@@ -10,6 +10,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id String @id @default(uuid())
+  name String
+  email String
+  password String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  @@map("user")
+
+  order Order[]
+  item Item[]
+}
+
 model Product {
 
   id String @id
@@ -25,16 +39,18 @@ model Product {
 model Order {
 
   id String @id @default(uuid())
-  client_name String
+  user_id String
   date DateTime
   total_amount Decimal
   status String
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
-  @@map("order")
+  user User @relation(fields: [user_id], references: [id])
 
   items Item[]
+
+  @@map("order")
 
 }
 
@@ -44,11 +60,13 @@ model Item{
   order_id String
   product_id String
   product_qty Int
+  user_id String
   created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
   order Order @relation(fields: [order_id], references: [id])
   product Product @relation(fields: [product_id], references: [id])
+  user User @relation(fields: [user_id], references: [id])
 
   @@map("item")
 
