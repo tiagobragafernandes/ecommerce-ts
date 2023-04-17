@@ -1,2 +1,5 @@
 # ecommerce-ts
-ecommerce em node e react
+
+Back-end de um E-commerce criado em Typescript seguindo a arquitetura MVC. <br>
+
+Banco de dados Postgres e PrismaORM.<br>
